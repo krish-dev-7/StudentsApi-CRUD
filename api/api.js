@@ -7,7 +7,6 @@ const Mod = require('../models/mods');
 
 //router initialization
 const router = express.Router();
-
 //url parsing
 router.use(express.json());
 router.use(express.urlencoded({extended: true}));
