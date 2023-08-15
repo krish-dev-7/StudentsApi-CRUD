@@ -1,0 +1,16 @@
+### (get all stud)
+get http://localhost:3000/api/students
+
+@token = "a0BrLmNvbToxMjM0"
+
+### (add stud)
+POST http://localhost:3000/api/addStudent
+Content-Type: application/json
+Authorization: Basic a0BrLmNvbToxMjM0
+
+{
+    "name":"krishsw",
+    "dept":"mech",
+    "year":"4",
+    "regNo":"124003113"
+}

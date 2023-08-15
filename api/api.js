@@ -11,14 +11,36 @@ const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({extended: true}));
 
+async function auth (req, res){
+    let auth = req.headers.authorization;
+    if(!auth){
+        return false;
+    }
+    const encoded = auth.substring(6);
+    const [email,pass] = Buffer.from(encoded, 'base64').toString('ascii').split(':');
+    const mod = await Mod.findOne({email: email});
+    if(mod){
+        console.log(mod.name);
+        const isValidPass = await bcrypt.compare(pass, mod.password);
+        if(!isValidPass){
+            return false;
+        }
+        return true;
+    }
+    else return false;
+}
+
+
 router.get('/', (req, res) => {
     res.json({success: true, message: 'Api can be implemented'});
 })
 
 router.post('/addStudent',async (req, res) => {
-    const studId = uuid4();
+    if(!await auth(req, res)){
+        return res.status(401).json({success: false, message: 'Unauthorized User'});
+    }
     const stud = new Students({
-        studId: studId,
+        studId: uuid4(),
         name: req.body.name,
         dept: req.body.dept,
         year: req.body.year,
@@ -46,7 +68,10 @@ router.get('/studId/:studId', async (req, res)=>{
         res.json({success:false, message:"Student Not Found"});
     }
 });
-router.delete('/studId/delete/:studId/', async (req, res)=>{
+router.delete('/studId/:studId/', async (req, res)=>{
+    if(!await auth(req, res)){
+        return res.status(401).json({success: false, message: 'Unauthorized User'});
+    }
     await Students.remove({studId: req.params.studId},(err)=>{
         if(err){
             res.json({success:false, error: err});
@@ -56,7 +81,10 @@ router.delete('/studId/delete/:studId/', async (req, res)=>{
         }
     });
 });
-router.delete('/regNo/delete/:regNo', async (req, res)=>{
+router.delete('/regNo/:regNo', async (req, res)=>{
+    if(!await auth(req, res)){
+        return res.status(401).json({success: false, message: 'Unauthorized User'});
+    }
     await Students.remove({regNo: req.params.regNo},(err)=>{
         if(err){
             res.json({success:false, error: err});
@@ -75,6 +103,9 @@ router.get('/regNo/:regNo', async (req, res)=>{
 });
 
 router.post('/regNo/update/:regNo', async (req, res)=>{
+    if(!await auth(req, res)){
+        return res.status(401).json({success: false, message: 'Unauthorized User'});
+    }
     const update = {
         name: req.body.name,
         dept: req.body.dept,
@@ -99,6 +130,7 @@ router.post('/mod/register', async(req, res) => {
     const salt = await bcrypt.genSalt(10);
     const password = req.body.password;
     const hashedPass = await bcrypt.hash(password, salt);
+    console.log("inside");
     const mod = new Mod({
         modId:modId,
         name: req.body.name,
