@@ -1,10 +1,11 @@
-FROM node:lts-alpine
-ENV NODE_ENV=production
+FROM node:18
+# Create app directory
 WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
+# Install app dependencies
+COPY package*.json ./
+RUN npm install
+# Copy app source code
 COPY . .
+#Expose port and start application
 EXPOSE 3000
-RUN chown -R node /usr/src/app
-USER node
-CMD ["npm", "start"]
+CMD [ "npm", "start" ]

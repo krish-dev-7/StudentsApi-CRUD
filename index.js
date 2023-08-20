@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 //mongoose connection
-mongoose.connect("mongodb://localhost:27017/students", (err)=>{
+mongoose.connect("mongodb://mongo:27017/students", (err)=>{
     if(err) console.log(err);
     else console.log("Connection successfull");
 });
@@ -21,3 +21,4 @@ app.get("/", (req, res)=>{
 
 const api = require('./api/api');
 app.use("/api",api);
+

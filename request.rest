@@ -6,11 +6,21 @@ get http://localhost:3000/api/students
 ### (add stud)
 POST http://localhost:3000/api/addStudent
 Content-Type: application/json
-Authorization: Basic a0BrLmNvbToxMjM0
+Authorization: Basic bW9kMUBnbWFpbC5jb206MTIzNA==
 
 {
-    "name":"krishsw",
-    "dept":"mech",
+    "name":"krish",
+    "dept":"cse",
     "year":"4",
-    "regNo":"124003113"
+    "regNo":"124003153"
+}
+
+### (Register)
+POST http://localhost:3000/api/mod/register
+Content-Type: application/json
+
+{
+    "name":"Mod1",
+    "email":"mod1@gmail.com",
+    "password":"1234"
 }

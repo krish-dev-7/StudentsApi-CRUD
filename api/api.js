@@ -58,6 +58,7 @@ router.post('/addStudent',async (req, res) => {
 });
 
 router.get('/students', async (req, res) => {
+    console.log("check for change");
      res.json(await Students.find());
 });
 
@@ -130,7 +131,6 @@ router.post('/mod/register', async(req, res) => {
     const salt = await bcrypt.genSalt(10);
     const password = req.body.password;
     const hashedPass = await bcrypt.hash(password, salt);
-    console.log("inside");
     const mod = new Mod({
         modId:modId,
         name: req.body.name,
