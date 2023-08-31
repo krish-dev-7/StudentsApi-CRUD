@@ -6,13 +6,13 @@ get http://localhost:3000/api/students
 ### (add stud)
 POST http://localhost:3000/api/addStudent
 Content-Type: application/json
-Authorization: Basic bW9kMUBnbWFpbC5jb206MTIzNA==
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2RJZCI6ImY1Yjg2ZWEzLWVhODAtNDY1Yi04ZTI0LTAzZWY5NjZjOGE2ZiIsImlhdCI6MTY5MzQ2MDgwM30.nP1QKfhvtyJoLJ2J-QxOpmB-0DRhP2PijLkQ_DJs6oQ
 
 {
-    "name":"krish",
+    "name":"Kishore",
     "dept":"cse",
     "year":"4",
-    "regNo":"124003153"
+    "regNo":"124003142"
 }
 
 ### (Register)
@@ -21,6 +21,15 @@ Content-Type: application/json
 
 {
     "name":"Mod1",
+    "email":"mod1@gmail.com",
+    "password":"1234"
+}
+
+### (login)
+POST http://localhost:3000/api/mod/login
+Content-Type: application/json
+
+{
     "email":"mod1@gmail.com",
     "password":"1234"
 }
